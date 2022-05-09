@@ -6,56 +6,65 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService {
 
-        Employee[] employees = {
-                new Employee("Sergey", "Petrov"),
-                new Employee("Mikhail", "Antonov"),
-                new Employee("Alexey", "Sorokin"),
-                new Employee("Maxim", "Diveev"),
-                new Employee("Arthur", "Kim"),
-                new Employee("Oleg", "Vasin"),
-                new Employee("Svetlana", "Frolova"),
-                new Employee("Dmitriy", "Chertov"),
-                new Employee("Natasha", "Krylova"),
-                new Employee("Petr", "Denisov")
-        };
+    Employee[] employees = {
+            new Employee("Sergey", "Petrov"),
+            new Employee("Mikhail", "Antonov"),
+            new Employee("Alexey", "Sorokin"),
+            new Employee("Maxim", "Diveev"),
+            new Employee("Arthur", "Kim"),
+            new Employee("Oleg", "Vasin"),
+            new Employee("Svetlana", "Frolova"),
+            new Employee("Dmitriy", "Chertov"),
+            new Employee("Natasha", "Krylova"),
+            new Employee("Petr", "Denisov")
+    };
 
-    public String addEmployee(String firstName, String lastName) {
+    public Employee addEmployee(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
+        boolean progress;
         for (int i = 0; i < employees.length; i++) {
+            progress = true;
             if (employees[i] == null) {
-                employees[i] = new Employee(firstName, lastName);
+                employees[i] = employee;
                 break;
+            } else if
+            (employees[i] != null && i == employees.length) {
+                progress = false;
             }
-            if (employees[i].equals(employees)){
-                throw new EmployeeExistsException();
-            }
-            if (employees[i] != null)
+            if (progress == false) {
                 throw new EmployeeIndexOutOfBoundsException();
+            }
         }
-        return firstName  + lastName;
+        return employee;
     }
 
-    public String deleteEmployee(String firstName, String lastName) {
+    public Employee deleteEmployee(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].equals(employees)) {
+            if (employees[i].getFirstName().equals(firstName) &&
+                    employees[i].getLastName().equals(lastName)) {
+                employee = employees[i];
                 employees[i] = null;
-            }
-            else
-                throw new Exception();
+                return employee;
+            } else
+                throw new EmployeeNotFoundException();
         }
         return null;
     }
 
-    public String searchEmployee(String firstName, String lastName) {
+    public Employee searchEmployee(String firstName, String lastName) {
+        Employee employee = new Employee(firstName, lastName);
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null & employees[i] == new Employee(firstName, lastName)) {
-                return employees[i].getFirstName() + " " + employees[i].getLastName();
-            }
-            if (employees[i] != null & employees[i] != new Employee(firstName, lastName)) {
+            if (employees[i].getFirstName().equals(firstName) &&
+                    employees[i].getLastName().equals(lastName)) {
+                return employee;
+            } else
                 throw new EmployeeNotFoundException();
-            }
-        }return "404 Not Found ";
+        }
+        return null;
     }
-    }
+}
+
 
 
 
