@@ -8,21 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path="/employee")
 
-public class employeeController {
+public class EmployeeController {
 
     private final EmployeeService employeeService;
-    public employeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping(path="/add")
-    public Object addEmployee (@RequestParam("firstName")String firstName,
+    public Employee addEmployee (@RequestParam("firstName")String firstName,
                                @RequestParam("lastName") String lastName) {
-        try {
-            return employeeService.addEmployee(firstName, lastName);
-        } catch (Exception a) {
-            return "500 Internal Server Error";
-        }
+      return employeeService.addEmployee(firstName, lastName);
     }
     @GetMapping (path="/delete")
     public Employee deleteEmployee (@RequestParam ("firstName")String firstName,
@@ -30,12 +26,8 @@ public class employeeController {
         return employeeService.deleteEmployee(firstName, lastName);
     }
     @GetMapping (path="/search")
-    public Object SearchEmployee (@RequestParam ("firstName")String firstName,
+    public Employee searchEmployee (@RequestParam ("firstName")String firstName,
                                   @RequestParam("lastName") String lastName) {
-        try {
-            return employeeService.searchEmployee(firstName, lastName);
-        } catch (ArrayIndexOutOfBoundsException | EmployeeNotFoundException a) {
-            return "404 Not Found";
-        }
+        return employeeService.searchEmployee(firstName, lastName);
     }
 }

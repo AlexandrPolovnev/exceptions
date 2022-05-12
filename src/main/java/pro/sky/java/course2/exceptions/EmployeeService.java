@@ -23,20 +23,18 @@ public class EmployeeService {
 
     public Employee addEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        boolean take = false;
+        int index = -1;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
-                employees[i] = employee;
-                take = true;
-                break;
+                index = i;
             }
-            if
-            (employees[i].getFirstName().equals(firstName) && employees[i].getFirstName().equals(lastName)) {
+            if (employees[i].equals(employee)) {
+                throw new EmployeeExistsException();
+            }
+            if (index != -1) {
+                employees[index] = employee;
+            } else
                 throw new EmployeeIndexOutOfBoundsException();
-            }
-        }
-        if (!take){
-            throw new EmployeeExistsException();
         }
         return employee;
     }
@@ -44,27 +42,25 @@ public class EmployeeService {
     public Employee deleteEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getFirstName().equals(firstName) &&
-                    employees[i].getLastName().equals(lastName)) {
-                employee = employees[i];
+            if (employees[i].equals(employee)) {
                 employees[i] = null;
                 return employee;
-            } else
+            } else {
                 throw new EmployeeNotFoundException();
+            }
         }
-        return null;
+            return null;
     }
 
     public Employee searchEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getFirstName().equals(firstName) &&
-                    employees[i].getLastName().equals(lastName)) {
+            if (employees[i].equals(employee)) {
                 return employee;
             } else
                 throw new EmployeeNotFoundException();
         }
-        return null;
+        return employee;
     }
 }
 
