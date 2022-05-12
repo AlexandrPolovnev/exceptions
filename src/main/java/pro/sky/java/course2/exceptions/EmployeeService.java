@@ -24,17 +24,20 @@ public class EmployeeService {
     public Employee addEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
         int index = -1;
+        boolean take = false;
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) {
+            if (employees[i] == null && !take) {
                 index = i;
+                take = true;
             }
             if (employees[i].equals(employee)) {
                 throw new EmployeeExistsException();
             }
             if (index != -1) {
                 employees[index] = employee;
-            } else
+            } else {
                 throw new EmployeeIndexOutOfBoundsException();
+            }
         }
         return employee;
     }
@@ -45,11 +48,9 @@ public class EmployeeService {
             if (employees[i].equals(employee)) {
                 employees[i] = null;
                 return employee;
-            } else {
-                throw new EmployeeNotFoundException();
             }
         }
-            return null;
+        throw new EmployeeNotFoundException();
     }
 
     public Employee searchEmployee(String firstName, String lastName) {
@@ -57,12 +58,12 @@ public class EmployeeService {
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].equals(employee)) {
                 return employee;
-            } else
-                throw new EmployeeNotFoundException();
+            }
         }
-        return employee;
+        throw new EmployeeNotFoundException();
     }
 }
+
 
 
 
