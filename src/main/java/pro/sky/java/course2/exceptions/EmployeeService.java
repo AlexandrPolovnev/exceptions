@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmployeeService {
 
-    Employee[] employees = {
+    private final Employee[] employees = {
+
+
             new Employee("Sergey", "Petrov"),
             new Employee("Mikhail", "Antonov"),
             new Employee("Alexey", "Sorokin"),
@@ -21,19 +23,20 @@ public class EmployeeService {
 
     public Employee addEmployee(String firstName, String lastName) {
         Employee employee = new Employee(firstName, lastName);
-        boolean progress;
+        boolean take = false;
         for (int i = 0; i < employees.length; i++) {
-            progress = true;
             if (employees[i] == null) {
                 employees[i] = employee;
+                take = true;
                 break;
-            } else if
-            (employees[i] != null && i == employees.length) {
-                progress = false;
             }
-            if (progress == false) {
+            if
+            (employees[i].getFirstName().equals(firstName) && employees[i].getFirstName().equals(lastName)) {
                 throw new EmployeeIndexOutOfBoundsException();
             }
+        }
+        if (!take){
+            throw new EmployeeExistsException();
         }
         return employee;
     }
