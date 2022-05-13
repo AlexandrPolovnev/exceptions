@@ -13,14 +13,6 @@ public class Employee {
 
     }
 
-    public String firstName() {
-        return firstName;
-    }
-
-    public String lastName() {
-        return lastName;
-    }
-
     public String getFirstName() {
         return firstName;
     }

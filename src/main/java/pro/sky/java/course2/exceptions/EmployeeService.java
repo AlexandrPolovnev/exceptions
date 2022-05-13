@@ -33,12 +33,12 @@ public class EmployeeService {
             if (employees[i].equals(employee)) {
                 throw new EmployeeExistsException();
             }
+        }
             if (index != -1) {
                 employees[index] = employee;
             } else {
                 throw new EmployeeIndexOutOfBoundsException();
             }
-        }
         return employee;
     }
 
